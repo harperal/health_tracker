@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Nutrition Page{% endblock %}
+{% block content %}
+<h1>Nutrition Page</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {%for msg in messages %}
+                <strong>{{msg}}</strong>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<br></br>
+<p>Nutrition is a vital part of maintaining our overall health. Tracking the food we consume and our caloric intake
+  can have great affects to our overall health. When we are aware of the calories we consume by keeping a food log we
+  can stay accountable in what we consume and use as fuel for our bodies. The below Nutrition Log allows you to keep
+  track of all the foods you eat throughout the day. As an added feature there is an additional column to note how the
+  food you have eaten made you feel. Since food is fuel for our bodies it is important to note the impact of how
+  different foods can affect the way we feel.</p>
+<h2>How to add food to the log?</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Steps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Navigate below the Nutrition Log</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Fill in the designated text boxes to add food, portion, calories and an optional description</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Click the Add button to the right of the form to add to Nutrition Log</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>Should you need to search for the amount of calories in your food, use the search bar below.</td>
+    </tr>
+  </tbody>
+</table>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Food Search" aria-label="Search">
+        <button type="button" class="btn btn-primary">Search</button>
+      </form>
+<p></p>
+<h2>Nutrition Log</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Portion</th>
+      <th scope="col">Calories</th>
+      <th scope="col">Description</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Wheat Toast</td>
+      <td>1</td>
+      <td>90 cals</td>
+      <td>Wheat toast was delicious and filling</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Eggs</td>
+      <td>2</td>
+      <td>180 cals</td>
+      <td>Eggs were filling and left me satiated</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Coffee</td>
+      <td>1.5</td>
+      <td>6 cals</td>
+      <td>Coffee is a nice pick me up in the morning</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+<form>
+    <p>Add Food: <input type="text" name="nm" placeholder="Food"/> <input type="text" name="nm" placeholder="Portion"/>
+      <input type="text" name="nm" placeholder="Calories"/> <input type="text" name="nm" placeholder="Description(optional)"/>
+      <button type="submit" class="btn btn-primary">Add</button></p>
+</form>
+
+{% endblock %}

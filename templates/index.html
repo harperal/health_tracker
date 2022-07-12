@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<h1>Welcome to Health Tracker!</h1>
+<br></br>
+<p1>Welcome to your own personal health management tracker! Whether you want to lose, gain, or maintain your
+weight this tool will help you reach your goals. The health tracker allows you to track and log the food you
+conume, as well as log the activity you engage in. Keeping track of this data will help keep you accountable to
+reach your goals!</p1>
+<br></br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {%for msg in messages %}
+                <strong>{{msg}}</strong>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<br></br>
+<div class="container">
+  <div class="row">
+    <div class="col-6 col-md-6"><h3>Nutrition Tracker</h3></div>
+    <div class="col-6 col-md-6"><h3>Fitness Tracker</h3></div>
+
+    <!-- Force next columns to break to new line -->
+    <div class="w-100"></div>
+
+    <div class="col-6 col-md-6">* Conveniently log all of your food!</div>
+    <div class="col-6 col-md-6">* Conveniently log all of your activity</div>
+
+      <!-- Force next columns to break to new line -->
+    <div class="w-100"></div>
+
+    <div class="col-6 col-md-6">* Keep track of your daily caloric consumption all in one place</div>
+    <div class="col-6 col-md-6">* Keep track of your daily fitness by logging all of your activity</div>
+
+      <!-- Force next columns to break to new line -->
+    <div class="w-100"></div>
+
+    <div class="col-6 col-md-6">* Set daily, weekly, and monthly goals for your nutrition</div>
+    <div class="col-6 col-md-6">* Set daily, weekly, and monthly goals for your fitness</div>
+
+    <!-- Force next columns to break to new line -->
+    <br></br>
+    <div class="w-100"></div>
+
+    <div class="col-6 col-md-6"><a class="btn btn-primary" href="{{url_for('nutrition')}}" role="button">Nutrition Log</a></div>
+    <div class="col-6 col-md-6"><a class="btn btn-primary" href="{{url_for('fitness')}}" role="button">Fitness Log</a></div>
+  </div>
+</div>
+
+{% endblock %}

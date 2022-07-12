@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Fitness Page{% endblock %}
+{% block content %}
+<h1>Fitness Page</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {%for msg in messages %}
+                <strong>{{msg}}</strong>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<br></br>
+<p>Exercise and activity are a vital part of maintaining our overall health. Tracking our fitness and our caloric deficit
+    or overage can have great affects to our overall health. When we are aware of the calories we expend by keeping an
+    activity log we can stay accountable in how we are taking care of our bodies. The below Activity Log allows you to keep
+  track of all the activity you achieve throughout the day. As an added feature there is an additional column to note how the
+  food you have eaten made you feel. Since being active is vital for our health it is important to note the impact of how
+  different activities can affect the way we feel.</p>
+<h2>How to add exercise to the log?</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Steps</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Navigate below the Fitness Log</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Fill in the designated text boxes to add exercise, length, calories and an optional description</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Click the Add button to the right of the form to add to Fitness Log</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>Should you need to search for the amount of calories burned during exercise, use the search bar below.</td>
+    </tr>
+  </tbody>
+</table>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Exercise Search" aria-label="Search">
+        <button type="button" class="btn btn-primary">Search</button>
+      </form>
+<p></p>
+<h2>Activity Log</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Length</th>
+      <th scope="col">Calories</th>
+      <th scope="col">Description</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Walking</td>
+      <td>60 mins</td>
+      <td>250 cals</td>
+      <td>Leisurely pace to fill up my lunch hour</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Elliptical</td>
+      <td>30 mins</td>
+      <td>320 cals</td>
+      <td>Short elliptical workout before dinner</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>HIIT</td>
+      <td>30</td>
+      <td>300 cals</td>
+      <td>Evening workout to get my heart rate up for the day</td>
+      <td><button type="button" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" class="btn btn-primary">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+<form>
+    <p>Add Activity: <input type="text" name="nm" placeholder="Exercise"/> <input type="text" name="nm" placeholder="Length"/>
+      <input type="text" name="nm" placeholder="Calories"/> <input type="text" name="nm" placeholder="Description(optional)"/>
+      <button type="submit" class="btn btn-primary">Add</button></p>
+</form>
+{% endblock %}
