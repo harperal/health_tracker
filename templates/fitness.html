@@ -16,33 +16,57 @@
   track of all the activity you achieve throughout the day. As an added feature there is an additional column to note how the
   food you have eaten made you feel. Since being active is vital for our health it is important to note the impact of how
   different activities can affect the way we feel.</p>
-<h2>How to add exercise to the log?</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Steps</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Navigate below the Fitness Log</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Click on the button Add Activity. You will be redirected to a form to add the activity.</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Fill in the designated text boxes to add  the activity, length, calories and an optional description</td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>Click submit below the form and the activity will be added to the log below.</td>
-    </tr>
-  </tbody>
-</table>
+<h3>How to add exercise to the log?</h3>
+<p></p>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Click to view steps to add to activity log
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Steps to add an activity are below:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Steps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Navigate below the Fitness Log</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Click on the button Add Activity. You will be redirected to a form to add the activity.</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Fill in the designated text boxes to add  the activity, length, calories and an optional description</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Click submit below the form and the activity will be added to the log below.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<p></p>
+<h3>Search for the amount of calories burned in an activity below:</h3>
+<p></p>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Exercise Search" aria-label="Search">
         <button type="button" class="btn btn-primary">Search</button>
@@ -77,4 +101,5 @@
   </tbody>
 </table>
 <a class="btn btn-primary" href="{{ url_for('add_activity') }}" role="button">Add Activity</a>
+
 {% endblock %}
