@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Add Activity{% endblock %}
+{% block content %}
+<h3>Add Activity using the form below:</h3>
+<form action="#" method="POST">
+  <p><input type="text" name="name" placeholder="Enter Activity Name" value="{{ request.form['name'] }}"/></p>
+  <p><input type="text" name="length" placeholder="Length of activity" value="{{ request.form['length'] }}"/></p>
+  <p><input type="text" name="calories" placeholder="Calories burned" value="{{ request.form['calories'] }}"/></p>
+  <p><input type="text" name="description" placeholder="Activity Journal" value="{{ request.form['description'] }}"/></p>
+  <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+</form>
+{% endblock %}

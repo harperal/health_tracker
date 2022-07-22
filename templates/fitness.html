@@ -31,15 +31,15 @@
     </tr>
     <tr>
       <th scope="row">2</th>
-      <td>Fill in the designated text boxes to add exercise, length, calories and an optional description</td>
+      <td>Click on the button Add Activity. You will be redirected to a form to add the activity.</td>
     </tr>
     <tr>
       <th scope="row">3</th>
-      <td>Click the Add button to the right of the form to add to Fitness Log</td>
+      <td>Fill in the designated text boxes to add  the activity, length, calories and an optional description</td>
     </tr>
     <tr>
       <th scope="row">4</th>
-      <td>Should you need to search for the amount of calories burned during exercise, use the search bar below.</td>
+      <td>Click submit below the form and the activity will be added to the log below.</td>
     </tr>
   </tbody>
 </table>
@@ -53,7 +53,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Length</th>
       <th scope="col">Calories</th>
@@ -63,38 +63,18 @@
     </tr>
   </thead>
   <tbody>
+    {% for activity in activity_data %}
     <tr>
-      <th scope="row">1</th>
-      <td>Walking</td>
-      <td>60 mins</td>
-      <td>250 cals</td>
-      <td>Leisurely pace to fill up my lunch hour</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
+      <td>{{ activity[0] }}</td>
+      <td>{{ activity[1] }}</td>
+      <td>{{ activity[2] }}</td>
+      <td>{{ activity[3] }}</td>
+      <td>{{ activity[4] }}</td>
+      <td><a class="btn btn-primary" href="{{ url_for('edit_activity', id=activity[0]) }}" role="button">Edit</a></td>
+      <td><a class="btn btn-primary" href="{{ url_for('delete_activity', id=activity[0]) }}" role="button">Delete</a></td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Elliptical</td>
-      <td>30 mins</td>
-      <td>320 cals</td>
-      <td>Short elliptical workout before dinner</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>HIIT</td>
-      <td>30</td>
-      <td>300 cals</td>
-      <td>Evening workout to get my heart rate up for the day</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
-<form>
-    <p>Add Activity: <input type="text" name="nm" placeholder="Exercise"/> <input type="text" name="nm" placeholder="Length"/>
-      <input type="text" name="nm" placeholder="Calories"/> <input type="text" name="nm" placeholder="Description(optional)"/>
-      <button type="submit" class="btn btn-primary">Add</button></p>
-</form>
+<a class="btn btn-primary" href="{{ url_for('add_activity') }}" role="button">Add Activity</a>
 {% endblock %}

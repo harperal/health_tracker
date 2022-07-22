@@ -1,10 +1,40 @@
-from flask import Flask, render_template, url_for, request, redirect, session, flash
+from flask import Flask, render_template, url_for, request, redirect, session, flash, abort
 from datetime import timedelta
+import sqlite3
 
 
 app = Flask(__name__)
 app.secret_key = "hello"
 app.permanent_session_lifetime = timedelta(minutes=60)
+db_locale = 'nutrition.db'
+
+
+def get_db_connection():
+    conn = sqlite3.connect('db_locale')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def get_activity(activity_id):
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    activity = c.execute("""SELECT * FROM activity_log WHERE id = ?""",
+                         (activity_id,)).fetchone()
+    c.close()
+    if activity is None:
+        abort(404)
+    return activity
+
+
+def get_food(food_id):
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    food = c.execute("""SELECT * FROM activity_log WHERE id = ?""",
+                         (food_id,)).fetchone()
+    c.close()
+    if food is None:
+        abort(404)
+    return food
 
 
 @app.route("/")
@@ -67,26 +97,174 @@ def logout():
 def nutrition():
     if "user" in session:
         user = session["user"]
+        food_data = query_food_details()
         flash(f"You are currently logged in, {user}! Should you wish to logout hit the logout button in thenavigation "
               f"bar. WARNING: You will be logged out immediately!")
-        return render_template("nutrition.html")
+        return render_template("nutrition.html", food_data=food_data)
     else:
         flash("Please login to access the Nutrition Page!")
         flash("Logging in allows Health Tracker to save your data and tailor the application to your needs!")
         return redirect(url_for("login"))
 
 
+def query_food_details():
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""
+    SELECT * FROM food_log
+    """)
+    food_data = c.fetchall()
+    return food_data
+
+
+@app.route('/add_food/', methods=('GET', 'POST'))
+def add_food():
+    if request.method == 'POST':
+        name = request.form['name']
+        portion = request.form['portion']
+        calories = request.form['calories']
+        description = request.form['description']
+        if not name:
+            flash('Food name required')
+        elif not portion:
+            flash('Food Portion required')
+        elif not calories:
+            flash('Calories in food required')
+        else:
+            conn = sqlite3.connect(db_locale)
+            c = conn.cursor()
+            c.execute("""
+                INSERT INTO food_log (name, portion, calories, description) VALUES (?, ?, ?, ?)
+                """, (name, portion, calories, description))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('nutrition'))
+    return render_template('add_food.html')
+
+
+@app.route('/<int:id>/edit_food/', methods=('GET', 'POST'))
+def edit_food(id):
+    food = get_food(id)
+    if request.method == 'POST':
+        name = request.form['name']
+        portion = request.form['portion']
+        calories = request.form['calories']
+        description = request.form['description']
+        if not name:
+            flash('Food name required')
+        elif not portion:
+            flash('Food Portion required')
+        elif not calories:
+            flash('Calories in food required')
+        else:
+            conn = sqlite3.connect(db_locale)
+            c = conn.cursor()
+            c.execute("""
+                        UPDATE food_log SET name = ?, portion= ?, calories= ?, description= ?""" 
+                      """WHERE id = ?""", (name, portion, calories, description, id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('nutrition'))
+    return render_template('edit_food.html', food=food)
+
+
+@app.route('/<int:id>/delete_food/', methods=('GET', 'POST'))
+def delete_food(id):
+    food = get_food(id)
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""DELETE FROM food_log WHERE id = ?""", (id,))
+    conn.commit()
+    conn.close()
+    flash("Successfully Deleted!")
+    return redirect(url_for('nutrition'))
+
+
 @app.route("/fitness/", methods=["POST", "GET"])
 def fitness():
     if "user" in session:
         user = session["user"]
-        flash(f"You are currently logged in, {user}! Should you wish to logout hit the logout button in thenavigation "
+        activity_data = query_activity_details()
+        flash(f"You are currently logged in, {user}! Should you wish to logout hit the logout button in the navigation "
               f"bar. WARNING: You will be logged out immediately!")
-        return render_template("fitness.html")
+        return render_template("fitness.html", activity_data=activity_data)
     else:
         flash("Please login to access the Fitness Page!")
         flash("Logging in allows Health Tracker to save your data and tailor the application to your needs!")
         return redirect(url_for("login"))
+
+
+def query_activity_details():
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""
+    SELECT * FROM activity_log
+    """)
+    activity_data = c.fetchall()
+    return activity_data
+
+
+@app.route('/add_activity/', methods=('GET', 'POST'))
+def add_activity():
+    if request.method == 'POST':
+        name = request.form['name']
+        length = request.form['length']
+        calories = request.form['calories']
+        description = request.form['description']
+        if not name:
+            flash('Activity name required')
+        elif not length:
+            flash('Activity length required')
+        elif not calories:
+            flash('Calories burned required')
+        else:
+            conn = sqlite3.connect(db_locale)
+            c = conn.cursor()
+            c.execute("""
+                INSERT INTO activity_log (name, length, calories, description) VALUES (?, ?, ?, ?)
+                """, (name, length, calories, description))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('fitness'))
+    return render_template('add_activity.html')
+
+
+@app.route('/<int:id>/edit_activity/', methods=('GET', 'POST'))
+def edit_activity(id):
+    activity = get_food(id)
+    if request.method == 'POST':
+        name = request.form['name']
+        length = request.form['length']
+        calories = request.form['calories']
+        description = request.form['description']
+        if not name:
+            flash('Activity name required')
+        elif not length:
+            flash('Activity length required')
+        elif not calories:
+            flash('Calories burned required')
+        else:
+            conn = sqlite3.connect(db_locale)
+            c = conn.cursor()
+            c.execute("""
+                        UPDATE activity_log SET name = ?, length= ?, calories= ?, description= ?""" 
+                      """WHERE id = ?""", (name, length, calories, description, id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('fitness'))
+    return render_template('edit_activity.html', activity=activity)
+
+
+@app.route('/<int:id>/delete_activity/', methods=('GET', 'POST'))
+def delete_activity(id):
+    activity = get_activity(id)
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""DELETE FROM activity_log WHERE id = ?""", (id,))
+    conn.commit()
+    conn.close()
+    flash("Successfully Deleted!")
+    return redirect(url_for('fitness'))
 
 
 if __name__ == "__main__":

@@ -31,15 +31,15 @@
     </tr>
     <tr>
       <th scope="row">2</th>
-      <td>Fill in the designated text boxes to add food, portion, calories and an optional description</td>
+      <td>Click on the button "Add Food". You will be redirected to a form to add the activity</td>
     </tr>
     <tr>
       <th scope="row">3</th>
-      <td>Click the Add button to the right of the form to add to Nutrition Log</td>
+      <td>Fill in the designated text boxes to add the Food, portion size, calories, and optional description</td>
     </tr>
     <tr>
       <th scope="row">4</th>
-      <td>Should you need to search for the amount of calories in your food, use the search bar below.</td>
+      <td>Click submit below the form and the food will be added to the log below.</td>
     </tr>
   </tbody>
 </table>
@@ -53,7 +53,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Portion</th>
       <th scope="col">Calories</th>
@@ -63,39 +63,19 @@
     </tr>
   </thead>
   <tbody>
+    {% for food in food_data %}
     <tr>
-      <th scope="row">1</th>
-      <td>Wheat Toast</td>
-      <td>1</td>
-      <td>90 cals</td>
-      <td>Wheat toast was delicious and filling</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
+      <td>{{ food[0] }}</td>
+      <td>{{ food[1] }}</td>
+      <td>{{ food[2] }}</td>
+      <td>{{ food[3] }}</td>
+      <td>{{ food[4] }}</td>
+      <td><a class="btn btn-primary" href="{{ url_for('edit_food', id=food[0]) }}" role="button">Edit</a></td>
+      <td><a class="btn btn-primary" href="{{ url_for('delete_food', id=food[0]) }}" role="button">Delete</a></td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Eggs</td>
-      <td>2</td>
-      <td>180 cals</td>
-      <td>Eggs were filling and left me satiated</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Coffee</td>
-      <td>1.5</td>
-      <td>6 cals</td>
-      <td>Coffee is a nice pick me up in the morning</td>
-      <td><button type="button" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" class="btn btn-primary">Delete</button></td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
-<form>
-    <p>Add Food: <input type="text" name="nm" placeholder="Food"/> <input type="text" name="nm" placeholder="Portion"/>
-      <input type="text" name="nm" placeholder="Calories"/> <input type="text" name="nm" placeholder="Description(optional)"/>
-      <button type="submit" class="btn btn-primary">Add</button></p>
-</form>
+<a class="btn btn-primary" href="{{ url_for('add_food') }}" role="button">Add Food</a>
 
 {% endblock %}

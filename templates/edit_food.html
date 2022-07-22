@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{% block title %} Edit selected food below: {{ food['name'] }}{% endblock %}</h3>
+<form action="#" method="POST">
+  <p><input type="text" name="name" placeholder="Food Name" value="{{ request.form['name'] or food['name'] }}"/></p>
+  <p><input type="text" name="portion" placeholder="Portion Size" value="{{ request.form['portion'] or food['portion'] }}"/></p>
+  <p><input type="text" name="calories" placeholder="Calories consumed" value="{{ request.form['calories'] or food['calories']}}"/></p>
+  <p><input type="text" name="description" placeholder="Food Journal" value="{{ request.form['description'] or food['description']}}"/></p>
+  <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+</form>
+{% endblock %}

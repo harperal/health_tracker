@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{% block title %} Edit selected activity below: {{ activity['name'] }}{% endblock %}</h3>
+<form action="#" method="POST">
+  <p><input type="text" name="name" placeholder="Activity Name" value="{{ request.form['name'] or activity['name'] }}"/></p>
+  <p><input type="text" name="portion" placeholder="Portion Size" value="{{ request.form['portion'] or activity['portion'] }}"/></p>
+  <p><input type="text" name="calories" placeholder="Calories consumed" value="{{ request.form['calories'] or activity['calories']}}"/></p>
+  <p><input type="text" name="description" placeholder="Activity Journal" value="{{ request.form['description'] or activity['description']}}"/></p>
+  <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+</form>
+{% endblock %}
