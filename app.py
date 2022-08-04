@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, abort
 from datetime import timedelta
 import sqlite3
+import time
 
 
 app = Flask(__name__)
@@ -35,6 +36,20 @@ def get_food(food_id):
     if food is None:
         abort(404)
     return food
+
+
+def get_calories(keyword):
+    keyword = str(keyword)
+    with open('init_search.txt', 'w') as f:
+        f.write('run')
+    with open('keyword.txt', 'w') as f:
+        f.write(keyword)
+    time.sleep(6)
+    with open('calories.txt', 'r') as f:
+        calories = f.readline()
+        portion = f.readline()
+    open('calories.txt', 'w').close()
+    return calories.rstrip(), portion
 
 
 @app.route("/")
@@ -98,9 +113,21 @@ def nutrition():
     if "user" in session:
         user = session["user"]
         food_data = query_food_details()
-        flash(f"You are currently logged in, {user}! Should you wish to logout hit the logout button in thenavigation "
+        total_cals = total_calories()
+        goal = get_goal()
+        if request.method == 'POST':
+            keyword = request.form['keyword']
+            calories = get_calories(keyword)
+            data = []
+            for i in calories:
+                data.append(i)
+            food_cal = data[0]
+            food_serv = data[1]
+            return render_template("nutrition.html", food_data=food_data, total_cals=total_cals, food_cal=food_cal,
+                                   food_serv=food_serv, goal=goal)
+        flash(f"You are currently logged in, {user}! Should you wish to logout hit the logout button in the navigation "
               f"bar. WARNING: You will be logged out immediately!")
-        return render_template("nutrition.html", food_data=food_data)
+        return render_template("nutrition.html", food_data=food_data, total_cals=total_cals, goal=goal)
     else:
         flash("Please login to access the Nutrition Page!")
         flash("Logging in allows Health Tracker to save your data and tailor the application to your needs!")
@@ -115,6 +142,23 @@ def query_food_details():
     """)
     food_data = c.fetchall()
     return food_data
+
+
+def total_calories():
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""SELECT SUM(calories) FROM food_log
+    """)
+    total_cals = c.fetchone()
+    return total_cals
+
+
+def get_goal():
+    conn = sqlite3.connect(db_locale)
+    c = conn.cursor()
+    c.execute("""SELECT calories FROM cal_goal""")
+    goal = c.fetchone()
+    return goal
 
 
 @app.route('/add_food/', methods=('GET', 'POST'))

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{% block title %} Edit Goal: {% endblock %}</h3>
+<form action="#" method="POST">
+  <p><input type="text" name="goal" placeholder="goal" value="{{ request.form['goal'] or goal['goal'] }}"/></p>
+  <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+</form>
+{% endblock %}

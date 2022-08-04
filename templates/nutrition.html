@@ -67,10 +67,27 @@
 <p></p>
 <h3>Search for the amount of calories in food below:</h3>
 <p></p>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Food Search" aria-label="Search">
-        <button type="button" class="btn btn-primary">Search</button>
+      <form class="d-flex" role="search" action="#" method="POST">
+        <input class="form-control me-2" type="text" name="keyword" placeholder="Food Search" value="{{ request.form['keyword'] }}" aria-label="Search">
+        <input class="btn btn-primary" type="submit" value="Search">
       </form>
+      <p></p>
+<ol class="list-group list-group-numbered">
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Calories</div>
+      <pre>{{food_cal}}</pre>
+    </div>
+
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Serving Size</div>
+      <pre>{{food_serv}}</pre>
+    </div>
+    <span class="badge bg-primary rounded-pill"></span>
+  </li>
+</ol>
 <p></p>
 <h2>Nutrition Log</h2>
 
@@ -100,6 +117,25 @@
     {% endfor %}
   </tbody>
 </table>
+<p></p>
 <a class="btn btn-primary" href="{{ url_for('add_food') }}" role="button">Add Food</a>
+<p></p>
+<h2>Calorie Tracking</h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Calorie Goal</th>
+    <th scope="col">Calories Consumed</th>
+    <th scope="col">Calories Left in Budget</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{goal[0]}} kcal</td>
+      <td>{{total_cals[0]}} kcal</td>
+      <td>{{goal[0] - total_cals[0]}} kcal</td>
+    </tr>
+  </tbody>
+</table>
 
 {% endblock %}
