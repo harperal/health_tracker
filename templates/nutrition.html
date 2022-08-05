@@ -19,7 +19,7 @@
 <h3>How to add food to the log?</h3>
 <p></p>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Click to view steps to add food to the log
+  How do I add food to the log?
 </button>
 
 <!-- Modal -->
@@ -54,6 +54,10 @@
           <tr>
             <th scope="row">4</th>
             <td>Click submit below the form and the food will be added to the log below.</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>If you are unsure how many calories are in the food, use the search bar below to return the calories and serving size.</td>
           </tr>
         </tbody>
       </table>
@@ -126,16 +130,69 @@
   <tr>
     <th scope="col">Calorie Goal</th>
     <th scope="col">Calories Consumed</th>
+    <th scope="col">Calories Burned</th>
     <th scope="col">Calories Left in Budget</th>
   </tr>
   </thead>
   <tbody>
     <tr>
-      <td>{{goal[0]}} kcal</td>
-      <td>{{total_cals[0]}} kcal</td>
-      <td>{{goal[0] - total_cals[0]}} kcal</td>
+      <td>{{ goal[0] }} kcal</td>
+      <td>{{ total_cals[0] }} kcal</td>
+      <td>{{ burn[0] }} kcal</td>
+      <td>{{goal[0] + burn[0] - total_cals[0]}} kcal</td>
+      <td><a class="btn btn-primary" href="{{ url_for('edit_goal') }}" role="button">Change Goal</a></td>
     </tr>
+
   </tbody>
 </table>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calModal">
+  How do I utilize calorie tracking?
+</button>
+<!-- Modal -->
+<div class="modal fade" id="calModal" tabindex="-1" aria-labelledby="calModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calModalLabel">What does Calorie Tracking have to offer?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Set a calorie budget or goal that can be edited or changed at any time by clicking the change goal
+              button on the right side of the table above.</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>The calories consumed will be calculated from the sum of calories in the nutrition log above.</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>The calories burned will be calculated from the sum of calories burned in the activity log
+              on the Fitness Page.</td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>Calories left in budget will be calculated by adding the Calorie Goal + Calories Burned -
+              Calories Consumed. Representing the remaining calories you have left for the day!</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<p></p>
 
 {% endblock %}

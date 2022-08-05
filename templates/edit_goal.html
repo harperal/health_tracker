@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h3>{% block title %} Edit Goal: {% endblock %}</h3>
+<h3>{% block title %} Update Calorie Goal: {% endblock %}</h3>
 <form action="#" method="POST">
-  <p><input type="text" name="goal" placeholder="goal" value="{{ request.form['goal'] or goal['goal'] }}"/></p>
-  <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+  <div class="mb-3">
+    <input type="text" name="goal" placeholder="new calorie goal" value="{{ request.form['goal'] or goal['goal'] }}"/>
+    <div class="form-text">** Please note submitting a new goal will delete the previous goal **</div>
+  </div>
+    <p><input class="btn btn-primary" type="submit" value="Submit"></p>
 </form>
 {% endblock %}
