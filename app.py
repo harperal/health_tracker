@@ -105,6 +105,7 @@ def logout():
 
 @app.route("/nutrition/", methods=["POST", "GET"])
 def nutrition():
+    """renders the nutrition page and all data, user must be in session"""
     if "user" in session:
         food_data, total_cals, burn, goal = query_food_details(), total_calories(), cal_burned(), get_goal()
         if request.method == 'POST':
@@ -126,16 +127,8 @@ def search_list(calories):
     return data
 
 
-#def list_cal_grams(calories):
-    #data = []
-    #for i in calories:
-        #data.append(i)
-    #food_cal = data[0]
-    #food_serv = data[1]
-    #return [food_cal, food_serv]
-
-
 def query_food_details():
+    """returns the data for the food_log Table to be rendered in nutrition.html"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -146,6 +139,7 @@ def query_food_details():
 
 
 def total_calories():
+    """returns the sum of total calories logged in food_log to be rendered in nutrition.html"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""SELECT SUM(calories) FROM food_log
@@ -155,6 +149,7 @@ def total_calories():
 
 
 def cal_burned():
+    """returns the total calories burned from the sum of activity calories to be rendered in nutrition.html"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""SELECT SUM(calories) FROM activity_log
@@ -164,6 +159,7 @@ def cal_burned():
 
 
 def get_goal():
+    """returns the calorie goal in cal_goal db to be rendered in nutrition.html"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""SELECT calories FROM cal_goal""")
@@ -173,6 +169,7 @@ def get_goal():
 
 @app.route('/edit_goal/', methods=('GET', 'POST'))
 def edit_goal():
+    """renders the edit goal html page"""
     id = 1
     goal = get_curr_goal(id)
     if request.method == 'POST':
@@ -183,6 +180,7 @@ def edit_goal():
 
 
 def update_goal_db(calories, id):
+    """updates the current calorie goal saved in cal_goal db"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -195,6 +193,7 @@ def update_goal_db(calories, id):
 
 @app.route('/add_food/', methods=('GET', 'POST'))
 def add_food():
+    """renders the add_food page, process POST request from user input to add food"""
     if request.method == 'POST':
         name, portion, calories = request.form['name'], request.form['portion'], request.form['calories']
         description = request.form['description']
@@ -204,6 +203,7 @@ def add_food():
 
 
 def add_food_db(name, portion, calories, description):
+    """adds food to the table food_log"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -216,6 +216,7 @@ def add_food_db(name, portion, calories, description):
 
 @app.route('/<int:id>/edit_food/', methods=('GET', 'POST'))
 def edit_food(id):
+    """renders the edit food page, processes POST request for edited foods"""
     food = get_food(id)
     if request.method == 'POST':
         name, portion, calories = request.form['name'], request.form['portion'], request.form['calories']
@@ -226,6 +227,7 @@ def edit_food(id):
 
 
 def update_food_db(name, portion, calories, description, id):
+    """updates the food data from the edit food form"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -238,6 +240,7 @@ def update_food_db(name, portion, calories, description, id):
 
 @app.route('/<int:id>/delete_food/', methods=('GET', 'POST'))
 def delete_food(id):
+    """deletes the food from table food_log given passed id"""
     get_food(id)
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
@@ -249,6 +252,7 @@ def delete_food(id):
 
 @app.route("/fitness/", methods=["POST", "GET"])
 def fitness():
+    """renders the fitness page, requires login"""
     if "user" in session:
         user = session["user"]
         activity_data = query_activity_details()
@@ -262,6 +266,7 @@ def fitness():
 
 
 def query_activity_details():
+    """returns all activity details from the activity_log Table"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -273,6 +278,7 @@ def query_activity_details():
 
 @app.route('/add_activity/', methods=('GET', 'POST'))
 def add_activity():
+    """renders the add_activity page"""
     if request.method == 'POST':
         name, length = request.form['name'], request.form['length']
         calories, description = request.form['calories'], request.form['description']
@@ -282,6 +288,7 @@ def add_activity():
 
 
 def add_activity_db(name, length, calories, description):
+    """adds activity data from the add activity form to the Table activity_log"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -294,6 +301,7 @@ def add_activity_db(name, length, calories, description):
 
 @app.route('/<int:id>/edit_activity/', methods=('GET', 'POST'))
 def edit_activity(id):
+    """renders the edit_activity page"""
     activity = get_activity(id)
     if request.method == 'POST':
         name, length = request.form['name'], request.form['length']
@@ -304,6 +312,7 @@ def edit_activity(id):
 
 
 def update_activity_db(name, length, calories, description, id):
+    """edits activity data from the edit activity form to the Table activity_log updating by passed activity id"""
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
     c.execute("""
@@ -316,6 +325,7 @@ def update_activity_db(name, length, calories, description, id):
 
 @app.route('/<int:id>/delete_activity/', methods=('GET', 'POST'))
 def delete_activity(id):
+    """deletes activity from Table activity_log by passed id"""
     get_activity(id)
     conn = sqlite3.connect(db_locale)
     c = conn.cursor()
